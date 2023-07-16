@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "lev"
+version = "0.1.0"
+description = ""
+authors = ["TurtleEgg <jake-take@yandex.ru>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Levenshtein = "^0.21.1"
+fastapi = "^0.100.0"
+uvicorn = "^0.23.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
