@@ -40,17 +40,20 @@ def get_typos(
     start = default_timer()
     tokens: list[str] = tokenize(text)
     typos: dict[str, list[dict[str, int]]] = {}
+
     for token in tokens:
         token = token.lower()
 
         if token in dictionary_set:
             continue
+
         candidates = []
         for word in dictionary:
             if max_distance and prefilter(token, word, max_distance):
                 continue
             if distance := get_distance(token, word, max_distance, engine):
                 candidates.append({word: distance})
+
         if candidates:
             candidates = sorted(candidates, key=lambda option: list(option.values())[0])
             typos[token] = candidates[:max_options]
