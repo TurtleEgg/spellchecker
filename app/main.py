@@ -57,6 +57,8 @@ def get_typos(
         if candidates:
             candidates = sorted(candidates, key=lambda option: list(option.values())[0])
             typos[token] = candidates[:num_candidates]
+        else:
+            typos[token] = []
 
     return {
         "processing_time, s": f"{default_timer() - start:.2f}",
@@ -73,6 +75,6 @@ if __name__ == "__main__":
     print(get_distance("привет", "пирвет", engine="naive"))
     text = "Яп ришёл к тебе с примммммм, расказать что сонце встало"
     print(
-        get_typos(text, max_distance=2, num_candidates=5, engine="levenshtein")
+        get_typos(text, max_distance=3, num_candidates=5, engine="levenshtein")
     )
-    print(get_typos(text, max_distance=2, num_candidates=5, engine="naive"))
+    print(get_typos(text, max_distance=3, num_candidates=5, engine="naive"))
