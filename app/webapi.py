@@ -20,6 +20,6 @@ def find_typos(
 
 
 @app.post("/calc_distance")
-def calc_distance(word1, word2, engine="lev"):
+def calc_distance(word1: str, word2: str, engine: str="lev"):
 
     return get_distance(word1, word2, max_distance=0, engine=engine)

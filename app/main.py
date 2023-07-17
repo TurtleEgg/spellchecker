@@ -14,7 +14,7 @@ def tokenize(text: str) -> list[str]:
     return re.findall(r"\w+", text)
 
 
-def get_distance(word1, word2, max_distance=0, engine="naive") -> int | None:
+def get_distance(word1: str, word2: str, max_distance: int=0, engine: str="naive") -> int | None:
     if engine == "levenshtein":
         distance = Levenshtein.distance(word1, word2)
         return (
@@ -24,9 +24,10 @@ def get_distance(word1, word2, max_distance=0, engine="naive") -> int | None:
         )
     elif engine == "naive":
         return calc_lev(word1, word2, max_distance)
+    raise ValueError(f'Движок "{engine}" не найден')
 
 
-def prefilter(word1, word2, max_distance):
+def prefilter(word1: str, word2: str, max_distance: int):
     if abs(len(word1) - len(word2)) > max_distance:
         return True
     if len(set(word1) ^ set(word2)) > max_distance / 2:
@@ -55,7 +56,7 @@ def get_typos(
                 candidates.append({word: distance})
 
         if candidates:
-            candidates = sorted(candidates, key=lambda option: list(option.values())[0])
+            candidates = sorted(candidates, key=lambda candidate: list(candidate.values())[0])
             typos[token] = candidates[:num_candidates]
         else:
             typos[token] = []
@@ -72,9 +73,11 @@ def get_typos(
 
 
 if __name__ == "__main__":
-    print(get_distance("привет", "пирвет", engine="naive"))
+    word1 = "привет"
+    word2 = "пирвет"
+    print(f'{word1}, {word2} distance: {get_distance(word1, word2, engine="naive")}')
     text = "Яп ришёл к тебе с примммммм, расказать что сонце встало"
     print(
-        get_typos(text, max_distance=3, num_candidates=5, engine="levenshtein")
+        get_typos(text, max_distance=2, num_candidates=5, engine="levenshtein")
     )
-    print(get_typos(text, max_distance=3, num_candidates=5, engine="naive"))
+    print(get_typos(text, max_distance=2, num_candidates=5, engine="naive"))
