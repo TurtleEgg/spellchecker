@@ -35,7 +35,7 @@ def prefilter(word1, word2, max_distance):
 
 
 def get_typos(
-    text: str, max_distance: int = 0, max_options: int = 3, engine: str = "naive"
+    text: str, max_distance: int = 0, num_candidates: int = 3, engine: str = "naive"
 ) -> dict:
     start = default_timer()
     tokens: list[str] = tokenize(text)
@@ -56,28 +56,23 @@ def get_typos(
 
         if candidates:
             candidates = sorted(candidates, key=lambda option: list(option.values())[0])
-            typos[token] = candidates[:max_options]
+            typos[token] = candidates[:num_candidates]
 
     return {
         "processing_time, s": f"{default_timer() - start:.2f}",
         "typos": typos,
         "parameters": {
             "max_distance": max_distance,
-            "max_options": max_options,
+            "num_candidates": num_candidates,
             "engine": engine,
         },
     }
 
 
 if __name__ == "__main__":
-    print(get_distance("при", "пир", engine="naive"))
-    text = "Яп ришёл к тебе с приветмо"
+    print(get_distance("привет", "пирвет", engine="naive"))
+    text = "Яп ришёл к тебе с приветмо, расказать что сонце встало"
     print(
-        get_typos(
-            text,
-            max_distance=2,
-            max_options=16,
-            engine="levenshtein",
-        )
+        get_typos(text, max_distance=2, num_candidates=5, engine="levenshtein")
     )
-    print(get_typos(text, max_distance=2, max_options=16, engine="naive"))
+    print(get_typos(text, max_distance=2, num_candidates=5, engine="naive"))
