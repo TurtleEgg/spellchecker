@@ -71,7 +71,7 @@ def get_typos(
 
 if __name__ == "__main__":
     print(get_distance("привет", "пирвет", engine="naive"))
-    text = "Яп ришёл к тебе с приветмо, расказать что сонце встало"
+    text = "Яп ришёл к тебе с примммммм, расказать что сонце встало"
     print(
         get_typos(text, max_distance=2, num_candidates=5, engine="levenshtein")
     )
